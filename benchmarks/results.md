@@ -5,7 +5,7 @@ Each entry is the median of 3 compiled calls after a warm-up call, with tangent 
 - CPU: AMD Ryzen 9 7950X 16-Core Processor, limited to 8 threads
 - GPU: NVIDIA RTX A6000. Before the run, its utilization was 98 %, and 36989 MiB of its 49140 MiB were in use.
 - Python 3.13.15, jax 0.12.0.1, stiefel 0.1.0, float64
-- git commit: e59f55f
+- Source: the pre-review implementation. These timings have not been rerun against the current code.
 
 | operation | batch | CPU, per item | GPU, per item |
 |---|---:|---:|---:|
