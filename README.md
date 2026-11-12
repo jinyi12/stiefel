@@ -4,7 +4,7 @@ Riemannian geometry and statistics on the Stiefel manifold, written in JAX.
 A point of St(n, p) is an n-by-p matrix with orthonormal columns, such as a reduced basis.
 
 - Geodesics, logarithms, distances and retractions for a family of metrics that includes the canonical and Euclidean metrics.
-- Fréchet means and k-means, with convergence reports.
+- Fréchet means, Lloyd k-means and mini-batch [Riemannian e-means](docs/fast-clustering.md), with convergence reports.
 - Compression to a joint subspace, so that statistics on large frames can be computed in smaller coordinates.
 - A pymanopt adapter for first-order optimisation with any metric of the family.
 
@@ -55,7 +55,7 @@ the joint basis from the data and cannot be wrapped in `jit` as a whole.
 
 ## Examples and documentation
 
-- [Example notebook](examples/quickstart.ipynb): geodesics, compression, Fréchet means and clustering.
+- Tutorials on [geodesics](examples/quickstart.ipynb), [compression and means](examples/compression-and-means.ipynb), and [clustering](examples/fast-clustering.ipynb).
 - [Numerical notes](docs/numerical-notes.md): metric definitions, algorithms, convergence limits and references.
 - [Function docstrings](src/stiefel/geometry.py) and [invariants](INVARIANTS.md): input requirements and guarantees.
 - [Benchmarks](benchmarks/results.md): CPU timings and measurement conditions.

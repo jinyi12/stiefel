@@ -257,7 +257,8 @@ def _not_differentiable(x):
 def _not_differentiable_jvp(primals, tangents):
     raise TypeError(
         "stiefel.log is not differentiable, and neither are distance, pairwise_distance, frechet_mean, "
-        "kmeans, Stiefel.log and Stiefel.dist, which call it: the logarithm is computed by an iteration. "
+        "kmeans, emeans, Stiefel.log and Stiefel.dist, which call it: "
+        "the logarithm is computed by an iteration. "
         "stiefel.exp is differentiable in forward and reverse mode."
     )
 

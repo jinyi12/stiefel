@@ -42,10 +42,12 @@ basis, which is at most `M p`.
 | `pairwise_distance(points, alpha=)` | symmetric matrix of distances; NaN where a logarithm failed | `joint_basis` plus `M (M - 1) / 2` logarithms on St(K, p) |
 | `frechet_mean(points, weights=, init=, alpha=, tol=, log_max_iter=)` | stationary point of the weighted sum of squared distances (`FrechetResult`) | `joint_basis` plus `M` logarithms on St(K, p) per iteration |
 | `kmeans(key, points, k, alpha=, n_init=, tol=, log_max_iter=)` | Riemannian k-means (`KMeansResult`) | `joint_basis` plus `M k` distances and `k` Fréchet means per step |
+| `emeans(key, points, k, alpha=, epochs=, batch_size=, decay=, polish_iter=)` | intrinsic mini-batch clustering (`EMeansResult`) | pruned assignments, one update per batch and final mean refinement |
 | `Stiefel(n, p, alpha=)` | object with pymanopt's method names, and `to_pymanopt()` | as the functions |
 
-None of the functions forms an `n x n` array. Each call factorizes a matrix with `n` rows at most once
-(invariant S6).
+When `M p < n`, joint compression avoids an `n x n` array and factorizes a matrix with `n` rows
+at most once (invariant S6). Otherwise `joint_basis` returns an explicit identity basis and the original
+frames. In that case `emeans` uses the frames directly, without requesting a joint basis.
 
 To build its basis, `joint_basis` takes one QR factorization of the stacked columns and then the SVD of the
 small triangular factor. It returns that basis only after it has verified the contract on it. The basis must
@@ -145,6 +147,8 @@ float64 and `1e-3` in float32. Every logarithm in the distances and the means is
 
 Neither function can be wrapped in `jit` as a whole, because the width `K` of the joint basis depends on the
 data. Their inner loops are compiled.
+
+The [fast-clustering note](fast-clustering.md) describes the Riemannian e-means adaptation and its final checks.
 
 ## The logarithm: domain and failure reports
 

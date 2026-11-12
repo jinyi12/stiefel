@@ -179,6 +179,8 @@ def test_frechet_mean_weights_without_overflow_and_validation():
     for bad in ([np.inf, 1.0], [np.nan, 1.0], [-1.0, 2.0], [0.0, 0.0]):
         with pytest.raises(ValueError):
             sf.frechet_mean(points, weights=jnp.array(bad))
+    with pytest.raises(ValueError, match="non-finite"):
+        sf.frechet_mean(points.at[1, 0, 0].set(jnp.nan), weights=jnp.array([1.0, 0.0]))
 
 
 def test_statistics_float32_at_default_tolerance():

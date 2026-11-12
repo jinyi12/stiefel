@@ -15,21 +15,22 @@ not finite or is at most -1.
 
 The coordinates of `joint_basis` are frames also when a user-given `rtol` drops a direction of a frame.
 Participants: `exp`, `polar`, `retract_qr`, `retract_polar`, `random_point`, `joint_basis` (basis and coordinates),
-`lift`, `frechet_mean`, `kmeans`, `Stiefel.exp`, `Stiefel.retraction`, `Stiefel.random_point`.
+`lift`, `frechet_mean`, `kmeans`, `emeans`, `Stiefel.exp`, `Stiefel.retraction`, `Stiefel.random_point`.
 
 ## S2 — No unvalidated logarithm
 WHEN a logarithm has not converged THE SYSTEM SHALL make that visible to the caller. `converged` is True only for
 a validated result (finite, tangent, endpoint residual within its bound), whatever stopped the iteration. For a
 logarithm that has not converged, `log` returns `converged = False`, and `distance` and `pairwise_distance`
-return NaN. `Stiefel.log` returns NaN, and `frechet_mean` and `kmeans` return `converged = False`. No callable
+return NaN. `Stiefel.log` returns NaN, and `frechet_mean`, `kmeans` and `emeans` return `converged = False`. No callable
 prints a warning in place of a status, and no callable compares a NaN and reads the result as convergence.
-Participants: `log`, `distance`, `pairwise_distance`, `frechet_mean`, `kmeans`, `Stiefel.log`, `Stiefel.dist`.
+Participants: `log`, `distance`, `pairwise_distance`, `frechet_mean`, `kmeans`, `emeans`, `Stiefel.log`, `Stiefel.dist`.
 
 ## S3 — Compression is exact
 WHEN frames lie in the range of a joint basis `W` THE SYSTEM SHALL give the same results on the small and the
 ambient frames. The agreement is to `1e-10` in float64. It applies to exponentials, logarithms,
 distances, means and clusters.
-Participants: `joint_basis`, `lift`, `exp`, `log`, `distance`, `frechet_mean`, `pairwise_distance`, `kmeans`.
+For `emeans`, this comparison assumes unique projected warm starts and unambiguous assignments.
+Participants: `joint_basis`, `lift`, `exp`, `log`, `distance`, `frechet_mean`, `pairwise_distance`, `kmeans`, `emeans`.
 
 ## S4 — Precision
 THE SYSTEM SHALL compute in the data type of its inputs and SHALL NOT change JAX's global configuration. This
@@ -48,14 +49,16 @@ a traced function.
 `exp` SHALL be differentiable in forward and reverse mode at every tangent. This includes the zero tangent and a
 rank-deficient normal component. The derivative SHALL be finite in the domain of S1 for `exp`.
 
-`log`, `distance`, `pairwise_distance`, `frechet_mean`, `kmeans`, `Stiefel.log` and `Stiefel.dist` iterate. WHEN
+`log`, `distance`, `pairwise_distance`, `frechet_mean`, `kmeans`, `emeans`, `Stiefel.log` and `Stiefel.dist` iterate. WHEN
 a transformation differentiates through them, in forward or in reverse mode, they SHALL raise `TypeError` with a
 message that gives this reason. Implicit differentiation is not implemented.
 Participants: every callable of `stiefel.geometry`; for differentiation, also the callables named above.
 
 ## S6 — Cost
-THE SYSTEM SHALL NOT allocate an `n x n` array and SHALL NOT factorize a matrix with `n` rows more than once
-per call. `joint_basis` verifies the result of its factorization. When the verification fails, it falls back to
+THE SYSTEM SHALL NOT factorize a matrix with `n` rows more than once per call. Geodesic computations and
+joint compression with `M p < n` SHALL NOT allocate an `n x n` workspace. When `M p >= n`, `joint_basis`
+returns an explicit identity basis; `emeans` bypasses this call and uses the input frames directly.
+`joint_basis` verifies the result of its factorization. When the verification fails, it falls back to
 Gram-Schmidt with matrix products. The result of Gram-Schmidt is verified in the same way, and a failure raises
 an error. Matrix exponentials, logarithms and Sylvester solves act on matrices of size at most `2p`.
 Participants: every callable.
@@ -63,7 +66,7 @@ Participants: every callable.
 ## S7 — Explicit randomness
 THE SYSTEM SHALL take a JAX key wherever it draws random numbers and SHALL return the same output for the same
 key.
-Participants: `random_point`, `random_tangent`, `kmeans`, `Stiefel.random_point`, `Stiefel.random_tangent_vector`.
+Participants: `random_point`, `random_tangent`, `kmeans`, `emeans`, `Stiefel.random_point`, `Stiefel.random_tangent_vector`.
 
 ## S8 — Library hygiene
 THE SYSTEM SHALL NOT print, write files or read environment variables.

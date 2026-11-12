@@ -64,8 +64,8 @@ def joint_basis(frames: Float[Array, "M n p"], *, rtol: float | None = None) -> 
         WHEN ``M p >= n`` THEN THE CALLABLE SHALL return the identity basis and the frames themselves.
         IF the result of the Gram-Schmidt route fails the verification above THEN THE CALLABLE SHALL raise
         ``FloatingPointError`` instead of returning it. A basis that is not finite is an example of a failure.
-        THE CALLABLE SHALL cost ``O(n (M p)^2)``. It SHALL NOT form an ``n x n`` array, and it SHALL
-        factorize a matrix with ``n`` rows at most once (S6).
+        WHEN ``M p < n`` THEN THE CALLABLE SHALL cost ``O(n (M p)^2)``, SHALL NOT form an ``n x n``
+        array, and SHALL factorize a matrix with ``n`` rows at most once (S6).
         The output shape depends on the data, so THE CALLABLE is not ``jit``-compatible (S5).
     """
     m, n, p = frames.shape

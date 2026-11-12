@@ -1,0 +1,30 @@
+# Typography and dimensions follow stochastic-model-form-corrections.
+# Okabe-Ito colors: blue, vermilion, bluish green, orange, black.
+font.family: serif
+font.serif: Computer Modern Roman, CMU Serif, DejaVu Serif
+mathtext.fontset: cm
+axes.unicode_minus: False
+font.size: 9
+axes.labelsize: 9
+axes.titlesize: 9
+legend.fontsize: 8
+xtick.labelsize: 8
+ytick.labelsize: 8
+axes.linewidth: 0.6
+xtick.major.width: 0.6
+ytick.major.width: 0.6
+lines.linewidth: 1.2
+axes.prop_cycle: cycler('color', ['0072B2', 'D55E00', '009E73', 'E69F00', '000000'])
+axes.grid: False
+figure.figsize: 6.17, 3.81
+figure.dpi: 150
+figure.facecolor: white
+axes.facecolor: white
+text.color: 242124
+axes.labelcolor: 242124
+figure.constrained_layout.use: True
+savefig.dpi: 300
+savefig.facecolor: white
+svg.fonttype: none
+pdf.fonttype: 42
+ps.fonttype: 42

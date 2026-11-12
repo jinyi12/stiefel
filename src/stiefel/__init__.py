@@ -22,17 +22,27 @@ from stiefel.geometry import (
     retract_qr,
 )
 from stiefel.manifold import Stiefel
-from stiefel.statistics import FrechetResult, KMeansResult, frechet_mean, kmeans, pairwise_distance
+from stiefel.statistics import (
+    EMeansResult,
+    FrechetResult,
+    KMeansResult,
+    emeans,
+    frechet_mean,
+    kmeans,
+    pairwise_distance,
+)
 
 __version__ = "0.1.0"
 
 __all__ = [
+    "EMeansResult",
     "FrechetResult",
     "JointBasis",
     "KMeansResult",
     "LogResult",
     "Stiefel",
     "distance",
+    "emeans",
     "exp",
     "frechet_mean",
     "inner",

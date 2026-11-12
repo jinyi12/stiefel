@@ -29,6 +29,7 @@ with redirect[0], redirect[1], warnings.catch_warnings(record=True) as w:
         "is_frame": sf.is_frame(x).astype(x.dtype), "joint_basis": sf.joint_basis(pts).basis,
         "lift": sf.lift(jnp.eye(10), x), "frechet_mean": sf.frechet_mean(pts).mean,
         "pairwise_distance": sf.pairwise_distance(pts), "kmeans": sf.kmeans(k, pts, 2).centers,
+        "emeans": sf.emeans(k, pts, 2, epochs=1).centers,
         "Stiefel.random_point": m.random_point(k), "Stiefel.log": m.log(x, near),
         "Stiefel.dist": m.dist(x, near),
         "Stiefel.exp": m.exp(x, t), "Stiefel.retraction": m.retraction(x, t),
