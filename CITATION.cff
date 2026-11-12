@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "stiefel: Riemannian geometry and statistics on the Stiefel manifold in JAX"
+type: software
+authors:
+  - family-names: Yong
+    given-names: Jin Yi
+license: BSD-3-Clause
+version: 0.1.0
